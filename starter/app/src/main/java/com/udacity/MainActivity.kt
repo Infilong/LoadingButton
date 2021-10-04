@@ -27,12 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-//        custom_button.setOnClickListener {
-//            download()
-//        }
+        DownloadButton.setOnClickListener {
+            DownloadButton.setState(ButtonState.Loading)
+            download()
+        }
     }
 
     private val receiver = object : BroadcastReceiver() {

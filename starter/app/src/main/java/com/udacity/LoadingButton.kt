@@ -3,6 +3,7 @@ package com.udacity
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
+import android.animation.ValueAnimator.RESTART
 import android.animation.ValueAnimator.REVERSE
 import android.content.Context
 import android.graphics.Canvas
@@ -28,7 +29,7 @@ class LoadingButton @JvmOverloads constructor(
     private var loadingPercentage = 0f
     private var circleAngle = 0f
 
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { _, _, new ->
+    var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { _, _, new ->
         when (new) {
             ButtonState.Loading -> {
                 buttonFillAnimator()
@@ -41,6 +42,11 @@ class LoadingButton @JvmOverloads constructor(
     init {
         isClickable = true
         loadingButton = findViewById(R.id.DownloadButton)
+    }
+
+    //public methods to set the state of the button
+    fun setState(buttonState: ButtonState) {
+        this.buttonState = buttonState
     }
 
     private fun ValueAnimator.disableViewDuringAnimation(view: View) {
@@ -84,7 +90,9 @@ class LoadingButton @JvmOverloads constructor(
                 duration = 1000
                 loadingPercentage = ValueAnimator.animatedValue as Float
                 repeatCount = 1
-                repeatMode = REVERSE
+                repeatMode = RESTART
+                //get the current animated value and then set to the property you want and then call invalidate() which will trigger onDraw again
+                invalidate()
             }
         }
         buttonAnimator.disableViewDuringAnimation(loadingButton)
@@ -97,7 +105,8 @@ class LoadingButton @JvmOverloads constructor(
                 duration = 1000
                 circleAngle = ValueAnimator.animatedValue as Float
                 repeatCount = 1
-                repeatMode = REVERSE
+                repeatMode = RESTART
+                invalidate()
             }
         }
         circleAnimator.disableViewDuringAnimation(loadingButton)
@@ -117,7 +126,7 @@ class LoadingButton @JvmOverloads constructor(
             color = resources.getColor(R.color.colorAccent, null)
         }
         canvas.drawArc((widthSize - 200f), (heightSize / 2) - 40f, (widthSize - 120f),
-            (heightSize / 2) + 40f, 0f, 360f, true, circlePaint)
+            (heightSize / 2) + 40f, 0f, circleAngle, true, circlePaint)
     }
 
     private fun drawText(canvas: Canvas) {
