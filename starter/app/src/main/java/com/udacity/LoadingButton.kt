@@ -125,7 +125,7 @@ class LoadingButton @JvmOverloads constructor(
             style = Paint.Style.FILL
             color = resources.getColor(R.color.colorAccent, null)
         }
-        canvas.drawArc((widthSize - 200f), (heightSize / 2) - 40f, (widthSize - 120f),
+        canvas.drawArc((widthSize - 150f), (heightSize / 2) - 40f, (widthSize - 70f),
             (heightSize / 2) + 40f, 0f, circleAngle, true, circlePaint)
     }
 
