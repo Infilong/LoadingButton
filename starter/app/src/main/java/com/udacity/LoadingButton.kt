@@ -84,6 +84,7 @@ class LoadingButton @JvmOverloads constructor(
         canvas.drawRect(0f, 0f, widthSize, heightSize, buttonPaint)
     }
 
+    //button animator
     private fun buttonFillAnimator() {
         buttonAnimator = ValueAnimator.ofFloat(0f, widthSize).apply {
             addUpdateListener { ValueAnimator ->
@@ -99,6 +100,7 @@ class LoadingButton @JvmOverloads constructor(
         buttonAnimator.start()
     }
 
+    //circle animator
     private fun circleFillAnimator() {
         circleAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
             addUpdateListener { ValueAnimator ->
@@ -113,6 +115,7 @@ class LoadingButton @JvmOverloads constructor(
         circleAnimator.start()
     }
 
+    //draw method will use var "loadingPercentage" to update loading bar shape
     private fun drawLoadingFill(canvas: Canvas) {
         val loadingFillPaint = Paint().apply {
             color = resources.getColor(R.color.colorPrimaryDark, null)
@@ -120,6 +123,7 @@ class LoadingButton @JvmOverloads constructor(
         canvas.drawRect(0f, 0f, loadingPercentage, heightSize, loadingFillPaint)
     }
 
+    //draw method will use var "circleAngle" to update circle shape
     private fun drawLoadingCircle(canvas: Canvas) {
         val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.FILL
