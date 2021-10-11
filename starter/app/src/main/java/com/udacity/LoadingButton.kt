@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.RESTART
-import android.animation.ValueAnimator.REVERSE
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -147,24 +146,26 @@ class LoadingButton @JvmOverloads constructor(
             buttonTextPaint)
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
-        val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 1)
-        val h: Int = resolveSizeAndState(
-            MeasureSpec.getSize(w),
-            heightMeasureSpec,
-            0
-        )
-        widthSize = w.toFloat()
-        heightSize = h.toFloat()
-        setMeasuredDimension(w, h)
-    }
+//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+//        val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
+//        val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 1)
+//        val h: Int = resolveSizeAndState(
+//            MeasureSpec.getSize(w),
+//            heightMeasureSpec,
+//            0
+//        )
+//        widthSize = w.toFloat()
+//        heightSize = h.toFloat()
+//        setMeasuredDimension(w, h)
+//    }
 
     private fun animationEnd() {
         buttonLabel = resources.getString(R.string.button_label)
         buttonAnimator.end()
         circleAnimator.end()
         loadingPercentage = 0f
+        circleAngle = 0f
+        invalidate()
     }
 }
 

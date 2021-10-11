@@ -18,4 +18,7 @@
         Square.Inc</string>
     <string name="download_image">"Download Image "</string>
     <string name="button_label">Download</string>
+
+    <string name="notification_channel_id">LoadApp Channel ID</string>
+    <string name="notification_channel_name">LoadApp Channel Name</string>
 </resources>
