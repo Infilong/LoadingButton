@@ -66,10 +66,9 @@
         </RadioGroup>
 
         <com.udacity.LoadingButton
-            android:id="@+id/DownloadButton"
+            android:id="@+id/download_button"
             android:layout_width="@dimen/download_button_width"
             android:layout_height="@dimen/download_button_height"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

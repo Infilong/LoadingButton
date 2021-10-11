@@ -40,7 +40,7 @@ class LoadingButton @JvmOverloads constructor(
 
     init {
         isClickable = true
-        loadingButton = findViewById(R.id.DownloadButton)
+        loadingButton = findViewById(R.id.download_button)
     }
 
     //public methods to set the state of the button

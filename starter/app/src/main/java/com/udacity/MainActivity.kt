@@ -38,12 +38,12 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        DownloadButton.setOnClickListener {
+        download_button.setOnClickListener {
             if (binding.root.radioGroup.checkedRadioButtonId == -1) {
                 Toast.makeText(this, "Please select the file to download", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                DownloadButton.setState(ButtonState.Loading)
+                download_button.setState(ButtonState.Loading)
                 download()
                 createNotificationChannel(
                     getString(R.string.notification_channel_id),
