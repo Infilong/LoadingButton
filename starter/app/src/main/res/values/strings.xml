@@ -21,6 +21,7 @@
 
     <string name="notification_channel_id">LoadApp Channel ID</string>
     <string name="notification_channel_name">LoadApp Channel Name</string>
+    <string name="notification_check_button">Check Status</string>
 
     <string name="detail_activity_file_text">File Name:</string>
     <string name="detail_activity_file_text_status">Status:</string>

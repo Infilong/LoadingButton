@@ -33,6 +33,7 @@ class LoadingButton @JvmOverloads constructor(
             ButtonState.Loading -> {
                 buttonFillAnimator()
                 circleFillAnimator()
+                invalidate()
             }
             ButtonState.Completed -> animationEnd()
         }
@@ -69,6 +70,7 @@ class LoadingButton @JvmOverloads constructor(
             drawLoadingFill(canvas)
             drawLoadingCircle(canvas)
             drawText(canvas)
+
         } else {
             buttonLabel = resources.getString(R.string.button_label)
             drawText(canvas)
@@ -112,6 +114,7 @@ class LoadingButton @JvmOverloads constructor(
         }
         circleAnimator.disableViewDuringAnimation(loadingButton)
         circleAnimator.start()
+        if (circleAnimator.repeatCount == 1) buttonState = ButtonState.Completed
     }
 
     //draw method will use var "loadingPercentage" to update loading bar shape
