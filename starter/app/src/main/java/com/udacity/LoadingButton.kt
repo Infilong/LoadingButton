@@ -11,6 +11,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.animation.doOnRepeat
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -28,14 +29,16 @@ class LoadingButton @JvmOverloads constructor(
     private var loadingPercentage = 0f
     private var circleAngle = 0f
 
-    var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { _, _, new ->
+    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { _, _, new ->
         when (new) {
             ButtonState.Loading -> {
                 buttonFillAnimator()
                 circleFillAnimator()
-                invalidate()
             }
-            ButtonState.Completed -> animationEnd()
+            ButtonState.Completed -> {
+                animationEnd()
+            }
+            else -> animationEnd()
         }
     }
 
@@ -88,11 +91,11 @@ class LoadingButton @JvmOverloads constructor(
     //button animator
     private fun buttonFillAnimator() {
         buttonAnimator = ValueAnimator.ofFloat(0f, widthSize).apply {
+            duration = 1000
+            repeatCount = 1
+            repeatMode = RESTART
             addUpdateListener { ValueAnimator ->
-                duration = 1000
                 loadingPercentage = ValueAnimator.animatedValue as Float
-                repeatCount = 1
-                repeatMode = RESTART
                 //get the current animated value and then set to the property you want and then call invalidate() which will trigger onDraw again
                 invalidate()
             }
@@ -103,18 +106,26 @@ class LoadingButton @JvmOverloads constructor(
 
     //circle animator
     private fun circleFillAnimator() {
+        var repeatTimes = 0
         circleAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
+            duration = 1000
+            repeatCount = 1
+            repeatMode = RESTART
             addUpdateListener { ValueAnimator ->
-                duration = 1000
                 circleAngle = ValueAnimator.animatedValue as Float
-                repeatCount = 1
-                repeatMode = RESTART
                 invalidate()
+                repeatTimes++
             }
         }
         circleAnimator.disableViewDuringAnimation(loadingButton)
         circleAnimator.start()
-        if (circleAnimator.repeatCount == 1) buttonState = ButtonState.Completed
+        circleAnimator.doOnRepeat {
+            if (repeatTimes == circleAnimator.repeatCount) {
+                repeatTimes = 0
+                buttonState = ButtonState.Completed
+            }
+
+        }
     }
 
     //draw method will use var "loadingPercentage" to update loading bar shape
