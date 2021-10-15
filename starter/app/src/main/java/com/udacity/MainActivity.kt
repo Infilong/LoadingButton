@@ -3,7 +3,6 @@ package com.udacity
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,19 +11,20 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Parcelable
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import com.udacity.databinding.ActivityMainBinding
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var downloadID: Long = 0
+    var url: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         download_button.setOnClickListener {
-            if (binding.root.radioGroup.checkedRadioButtonId == -1) {
+            if (radioGroup.checkedRadioButtonId == -1) {
                 Toast.makeText(this, "Please select the file to download", Toast.LENGTH_SHORT)
                     .show()
             } else {
@@ -48,6 +48,21 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.Glide -> {
+                    url = GLIDE_URL
+                }
+                R.id.LoadApp -> {
+                    url = UDACITY_URL
+                }
+                R.id.Retrofit -> {
+                    url = RETROFIT_URL
+                }
+            }
+            FileNameAndDownLoadStatus(fileName = url, status = "success")
+        }
     }
 
     private val receiver = object : BroadcastReceiver() {
@@ -58,12 +73,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun download() {
         val request =
-            DownloadManager.Request(Uri.parse(URL))
+            DownloadManager.Request(Uri.parse(url))
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(R.string.app_description))
                 .setRequiresCharging(false)
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
+                .setDestinationInExternalFilesDir(this,
+                    Environment.DIRECTORY_DOWNLOADS,
+                    LoadAppDownLoadFileName)
 
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
@@ -83,14 +101,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getURL() {
-
-    }
-
     companion object {
-        private const val URL =
+        private const val GLIDE_URL = "https://github.com/bumptech/glide/archive/master.zip"
+        private const val UDACITY_URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
-        private const val CHANNEL_ID = "channelId"
+        private const val RETROFIT_URL = "https://github.com/square/retrofit/archive/master.zip"
+        private const val LoadAppDownLoadFileName = "LoadAppDownLoadFile.zip"
     }
 
+    @Parcelize
+    data class FileNameAndDownLoadStatus(var fileName: String, var status: String) : Parcelable
 }

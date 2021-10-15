@@ -92,7 +92,7 @@ class LoadingButton @JvmOverloads constructor(
     private fun buttonFillAnimator() {
         buttonAnimator = ValueAnimator.ofFloat(0f, widthSize).apply {
             duration = 1000
-            repeatCount = 1
+            repeatCount = 2
             repeatMode = RESTART
             addUpdateListener { ValueAnimator ->
                 loadingPercentage = ValueAnimator.animatedValue as Float
@@ -109,17 +109,19 @@ class LoadingButton @JvmOverloads constructor(
         var repeatTimes = 0
         circleAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
             duration = 1000
-            repeatCount = 1
+            repeatCount = 2
             repeatMode = RESTART
             addUpdateListener { ValueAnimator ->
                 circleAngle = ValueAnimator.animatedValue as Float
                 invalidate()
-                repeatTimes++
+                //updateListener should only be used to extract the animatedValue
+                // and invalidate the view so that next onDraw uses the stored animatedValue to draw the animation frame.
             }
         }
         circleAnimator.disableViewDuringAnimation(loadingButton)
         circleAnimator.start()
         circleAnimator.doOnRepeat {
+            repeatTimes++
             if (repeatTimes == circleAnimator.repeatCount) {
                 repeatTimes = 0
                 buttonState = ButtonState.Completed

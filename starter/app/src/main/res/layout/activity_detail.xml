@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="Info"
+            type="com.udacity.MainActivity.FileNameAndDownLoadStatus" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,8 +20,8 @@
             android:id="@+id/confirm_buttonButton"
             android:layout_width="@dimen/download_button_width"
             android:layout_height="@dimen/download_button_height"
-            android:text="@string/detail_activity_confirm_button"
             android:backgroundTint="@color/colorAccent"
+            android:text="@string/detail_activity_confirm_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -42,11 +49,11 @@
             app:layout_constraintTop_toBottomOf="@+id/fileNameLabel" />
 
         <TextView
-            android:id="@+id/fileName"
+            android:id="@+id/downloadedFileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="136dp"
-            android:text=""
+            android:text="@{Info.fileName}"
             app:layout_constraintBaseline_toBaselineOf="@+id/fileNameLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -56,8 +63,8 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="@{Info.status}"
             app:layout_constraintBaseline_toBaselineOf="@+id/statusLabel"
-            app:layout_constraintStart_toStartOf="@+id/fileName" />
+            app:layout_constraintStart_toStartOf="@+id/downloadedFileName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
