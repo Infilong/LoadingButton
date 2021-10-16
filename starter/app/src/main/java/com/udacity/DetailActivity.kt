@@ -1,11 +1,8 @@
 package com.udacity
 
-import android.app.NotificationManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.udacity.databinding.ActivityDetailBinding
-import com.udacity.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -13,9 +10,9 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
+        val fileNameAndDownloadStatus =
+            intent.getParcelableExtra<FileNameAndDownloadStatus>("fileNameAndDownLoadStatus")
+        binding.fileNameAndDownloadStatus = fileNameAndDownloadStatus
         setContentView(binding.root)
-
-
-
     }
 }

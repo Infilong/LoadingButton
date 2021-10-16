@@ -11,15 +11,17 @@ import androidx.core.app.NotificationCompat
 private const val NOTIFICATION_ID = 0
 
 fun NotificationManager.sendNotification(
-    url: String,
-    status: String,
-    downloadID: Long,
+//    url: String,
+//    status: String,
+    fileNameAndDownloadStatus: FileNameAndDownloadStatus,
+    // downloadID: Long,
     applicationContext: Context,
 ) {
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
-        .putExtra("downloadID", downloadID)
-        .putExtra("url", url)
-        .putExtra("status", status)
+        //.putExtra("downloadID", downloadID)
+//        .putExtra("url", url)
+//        .putExtra("status", status)
+        .putExtra("fileNameAndDownloadStatus", fileNameAndDownloadStatus)
 
     val contentPendingIntent = PendingIntent.getActivity(applicationContext,
         NOTIFICATION_ID,

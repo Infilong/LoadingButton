@@ -57,8 +57,7 @@ class MainActivity : AppCompatActivity() {
                 download()
                 createNotificationChannel(
                     getString(R.string.notification_channel_id),
-                    getString(R.string.notification_channel_name),
-                    url, status
+                    getString(R.string.notification_channel_name)
                 )
             }
         }
@@ -68,7 +67,9 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.sendNotification(url, status, id, context)
+            //notificationManager.sendNotification(url, status, id, context)
+            notificationManager.sendNotification(FileNameAndDownloadStatus(url,
+                status), context)
         }
     }
 
@@ -92,8 +93,6 @@ class MainActivity : AppCompatActivity() {
     private fun createNotificationChannel(
         channelId: String,
         channelName: String,
-        url: String,
-        status: String,
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
@@ -104,7 +103,6 @@ class MainActivity : AppCompatActivity() {
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChannel)
-
         }
     }
 

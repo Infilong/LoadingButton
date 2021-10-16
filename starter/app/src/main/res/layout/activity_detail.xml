@@ -6,11 +6,8 @@
     <data>
 
         <variable
-            name="DownloadLink"
-            type="com.udacity.MainActivity" />
-        <variable
-            name="Status"
-            type="com.udacity.MainActivity" />
+            name="fileNameAndDownloadStatus"
+            type="com.udacity.FileNameAndDownloadStatus" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="136dp"
-            android:text="@{DownloadLink.url}"
+            android:text="@{fileNameAndDownloadStatus.fileName}"
             app:layout_constraintBaseline_toBaselineOf="@+id/fileNameLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -66,7 +63,7 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{Status.status}"
+            android:text="@{fileNameAndDownloadStatus.status}"
             app:layout_constraintBaseline_toBaselineOf="@+id/statusLabel"
             app:layout_constraintStart_toStartOf="@+id/downloadedFileName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
