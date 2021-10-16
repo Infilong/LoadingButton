@@ -65,8 +65,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+        override fun onReceive(context: Context, intent: Intent) {
+            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.sendNotification(url, status, id, context)
         }
     }
 
@@ -101,7 +103,8 @@ class MainActivity : AppCompatActivity() {
             notificationChannel.description = "File Downloaded"
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.sendNotification(url, status, this)
+            notificationManager.createNotificationChannel(notificationChannel)
+
         }
     }
 

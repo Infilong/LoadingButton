@@ -13,9 +13,11 @@ private const val NOTIFICATION_ID = 0
 fun NotificationManager.sendNotification(
     url: String,
     status: String,
+    downloadID: Long,
     applicationContext: Context,
 ) {
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+        .putExtra("downloadID", downloadID)
         .putExtra("url", url)
         .putExtra("status", status)
 
