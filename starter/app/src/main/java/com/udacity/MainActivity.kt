@@ -12,12 +12,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.Parcelable
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.udacity.databinding.ActivityMainBinding
-import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var downloadID: Long = 0
     var url: String = ""
+    var status: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,20 +33,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-        download_button.setOnClickListener {
-            if (radioGroup.checkedRadioButtonId == -1) {
-                Toast.makeText(this, "Please select the file to download", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                download_button.setState(ButtonState.Loading)
-                download()
-                createNotificationChannel(
-                    getString(R.string.notification_channel_id),
-                    getString(R.string.notification_channel_name)
-                )
-            }
-        }
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -61,7 +46,21 @@ class MainActivity : AppCompatActivity() {
                     url = RETROFIT_URL
                 }
             }
-            FileNameAndDownLoadStatus(fileName = url, status = "success")
+        }
+
+        download_button.setOnClickListener {
+            if (radioGroup.checkedRadioButtonId == -1) {
+                Toast.makeText(this, "Please select the file to download", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                download_button.setState(ButtonState.Loading)
+                download()
+                createNotificationChannel(
+                    getString(R.string.notification_channel_id),
+                    getString(R.string.notification_channel_name),
+                    url, status
+                )
+            }
         }
     }
 
@@ -88,7 +87,12 @@ class MainActivity : AppCompatActivity() {
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
     }
 
-    private fun createNotificationChannel(channelId: String, channelName: String) {
+    private fun createNotificationChannel(
+        channelId: String,
+        channelName: String,
+        url: String,
+        status: String,
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
                 NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
@@ -97,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             notificationChannel.description = "File Downloaded"
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.sendNotification(this)
+            notificationManager.sendNotification(url, status, this)
         }
     }
 
@@ -107,8 +111,6 @@ class MainActivity : AppCompatActivity() {
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
         private const val RETROFIT_URL = "https://github.com/square/retrofit/archive/master.zip"
         private const val LoadAppDownLoadFileName = "LoadAppDownLoadFile.zip"
-    }
 
-    @Parcelize
-    data class FileNameAndDownLoadStatus(var fileName: String, var status: String) : Parcelable
+    }
 }

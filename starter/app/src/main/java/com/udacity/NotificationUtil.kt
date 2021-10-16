@@ -10,8 +10,15 @@ import androidx.core.app.NotificationCompat
 
 private const val NOTIFICATION_ID = 0
 
-fun NotificationManager.sendNotification(applicationContext: Context) {
+fun NotificationManager.sendNotification(
+    url: String,
+    status: String,
+    applicationContext: Context,
+) {
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+        .putExtra("url", url)
+        .putExtra("status", status)
+
     val contentPendingIntent = PendingIntent.getActivity(applicationContext,
         NOTIFICATION_ID,
         contentIntent,
@@ -24,12 +31,10 @@ fun NotificationManager.sendNotification(applicationContext: Context) {
         .setContentText(applicationContext.getString(R.string.notification_description))
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setContentIntent(contentPendingIntent)
+        .setAutoCancel(true)
         .addAction(R.drawable.ic_assistant_black_24dp,
             applicationContext.getString(R.string.notification_check_button),
             contentPendingIntent)
-    notify(NOTIFICATION_ID, builder.build())
-}
 
-fun NotificationManager.cancelNotification() {
-    cancelAll()
+    notify(NOTIFICATION_ID, builder.build())
 }
