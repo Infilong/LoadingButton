@@ -11,7 +11,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         val fileNameAndDownloadStatus =
-            intent.getParcelableExtra<FileNameAndDownloadStatus>("fileNameAndDownLoadStatus")
+            intent.getParcelableExtra<FileNameAndDownloadStatus>("fileNameAndDownloadStatus")
         binding.fileNameAndDownloadStatus = fileNameAndDownloadStatus
         setContentView(binding.root)
     }

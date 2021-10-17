@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 .setAllowedOverRoaming(true)
                 .setDestinationInExternalFilesDir(this,
                     Environment.DIRECTORY_DOWNLOADS,
-                    LoadAppDownLoadFileName)
+                    LoadAppDownloadFileName)
 
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         private const val UDACITY_URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
         private const val RETROFIT_URL = "https://github.com/square/retrofit/archive/master.zip"
-        private const val LoadAppDownLoadFileName = "LoadAppDownLoadFile.zip"
+        private const val LoadAppDownloadFileName = "LoadAppDownloadFile.zip"
 
     }
 }
