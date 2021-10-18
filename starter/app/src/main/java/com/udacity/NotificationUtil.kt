@@ -15,7 +15,9 @@ fun NotificationManager.sendNotification(
     applicationContext: Context,
 ) {
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
-        .putExtra("fileNameAndDownloadStatus", fileNameAndDownloadStatus) //in DetailActivity.kt line 14: intent.getParcelableExtra<FileNameAndDownloadStatus>("fileNameAndDownloadStatus")
+        .putExtra("fileNameAndDownloadStatus",
+            fileNameAndDownloadStatus)
+        //in DetailActivity.kt line 14: intent.getParcelableExtra<FileNameAndDownloadStatus>("fileNameAndDownloadStatus")
 
     val contentPendingIntent = PendingIntent.getActivity(applicationContext,
         NOTIFICATION_ID,

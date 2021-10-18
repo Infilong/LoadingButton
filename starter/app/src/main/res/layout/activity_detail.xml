@@ -54,6 +54,7 @@
             android:layout_height="84dp"
             android:layout_marginEnd="16dp"
             android:text="@{fileNameAndDownloadStatus.fileName}"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBaseline_toBaselineOf="@+id/fileNameLabel"
             app:layout_constraintEnd_toEndOf="parent" />
 

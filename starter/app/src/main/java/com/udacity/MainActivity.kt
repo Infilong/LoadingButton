@@ -63,11 +63,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*Android BroadcastReceiver is a dormant component of android that listens to system-wide broadcast events or intents.
+    When any of these events occur it brings the application into action by either creating a status bar notification or performing a task.*/
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            //notificationManager.sendNotification(url, status, id, context)
+            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            val query = DownloadManager.Query()
+            val cursor = downloadManager.query(query)
+
+            query.setFilterById(id)
+
+            if (cursor.moveToFirst()) {
+                //get network response status codes
+                val statusNumber =
+                    cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+
+                status = if (DownloadManager.STATUS_SUCCESSFUL == statusNumber) {
+                    "Success"
+                } else {
+                    "Fail"
+                }
+            }
+
             notificationManager.sendNotification(FileNameAndDownloadStatus(url,
                 status), context)
         }
