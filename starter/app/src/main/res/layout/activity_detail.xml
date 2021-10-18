@@ -10,10 +10,11 @@
             type="com.udacity.FileNameAndDownloadStatus" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailActivity">
+        tools:context=".DetailActivity"
+        app:layoutDescription="@xml/content_detail_motion_scene">
 
 
         <Button
@@ -65,5 +66,5 @@
             android:text="@{fileNameAndDownloadStatus.status}"
             app:layout_constraintBaseline_toBaselineOf="@+id/statusLabel"
             app:layout_constraintStart_toStartOf="@+id/downloadedFileName" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
